@@ -81,9 +81,9 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 project=guidata(gcbo);
 [namafile,direktori]=uigetfile({'*.jpg';'*.*'},'Buka Citra');
 I=imread(strcat(direktori,namafile));
-A=gray2rgb(I);
+%A=gray2rgb(I);
 set(project.figure1, 'CurrentAxes', project.axes1);
-set(imshow(A));
+set(imshow(I));
 set(project.axes1, 'Userdata', I);
 
 
@@ -98,7 +98,7 @@ set(project.axes1, 'Userdata', I);
 
 
 % --- Executes on button press in pushbutton2.
-function pushbutton2_Callback(hObject, eventdata, handles)
+function pushbutton2_Callback(~, eventdata, handles)
 % hObject    handle to pushbutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -127,16 +127,21 @@ end
 
 
 % --- Executes on button press in pushbutton3.
-function pushbutton3_Callback(hObject, eventdata, handles)
+function pushbutton3_Callback(~, ~, ~)
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-projek=guidata(gcbo);
-[namafile,direktori]=uigetfile({'*.jpg';'*.*'},'Buka Citra');
-B=imread(strcat(direktori,namafile));
-Z=rgb2gray(B);
-set(project.figure2, 'CurrentAxes', project.axes2);
-set(imshow(Z));
-set(project.axes2, 'Userdata', I);
+%[namafile,direktori]=uigetfile({'*.jpg';'*.*'},'Buka Citra');
+project=guidata(gcbo);
+B= get(project.axes1, 'Userdata');
+px=[-1 0 1; -1 0 1;-1 0 1];
+O=filter2(px,B);
+py=px;
+A=filter2(px,B);
+edge_p=sqrt(O.^2+A.^2);
+cla;
+set(project.figure1, 'CurrentAxes', project.axes2);
+set(imshow(edge_p/255));
+set(project.axes2, 'Userdata', edge_p);
 
 
