@@ -81,7 +81,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 project=guidata(gcbo);
 [namafile,direktori]=uigetfile({'*.jpg';'*.*'},'Buka Citra');
 I=imread(strcat(direktori,namafile));
-%A=gray2rgb(I);
+%A=rgb2gray(I);
 set(project.figure1, 'CurrentAxes', project.axes1);
 set(imshow(I));
 set(project.axes1, 'Userdata', I);
@@ -134,14 +134,12 @@ function pushbutton3_Callback(~, ~, ~)
 %[namafile,direktori]=uigetfile({'*.jpg';'*.*'},'Buka Citra');
 project=guidata(gcbo);
 B= get(project.axes1, 'Userdata');
-px=[-1 0 1; -1 0 1;-1 0 1];
-O=filter2(px,B);
-py=px;
-A=filter2(px,B);
-edge_p=sqrt(O.^2+A.^2);
-cla;
+gr=rgb2gray(B);
+gr=flipud(gr);
+%gr=transpose(gr);
+yy=double(gr);
 set(project.figure1, 'CurrentAxes', project.axes2);
-set(imshow(edge_p/255));
-set(project.axes2, 'Userdata', edge_p);
+set(pcolor(yy), 'EdgeColor', 'none');
+set(project.axes2, 'Userdata', yy);
 
 
